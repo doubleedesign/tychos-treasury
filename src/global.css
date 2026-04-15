@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "Copernicus New Cond";
+  src: url("https://doublee.dev/fonts/CopernicusNewCond-130.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+:root {
+  --font-family-headings: "Copernicus New Cond", sans-serif;
+  --font-weight-semibold: 600;
+}
+
+h1, h2 {
+  font-family: var(--font-family-headings);
+  font-weight: var(--font-weight-semibold);
+}
+
+/*# sourceMappingURL=global.css.map */

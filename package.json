@@ -1,0 +1,46 @@
+{
+	"name": "@doubleedesign/tychos-treasury",
+	"description": "A collection of VueJS UI components",
+	"version": "0.0.1",
+	"author": "Leesa Ward",
+	"license": "UNLICENSED",
+	"type": "module",
+	"main": "src/index.ts",
+	"scripts": {
+		"storybook": "storybook dev -p 6006",
+		"build-storybook": "storybook build"
+	},
+	"dependencies": {
+		"@doubleedesign/storybook-addon-accessibility-tree": "^1.0.0-alpha7",
+		"@storybook/addon-a11y": "^10.3.1",
+		"@storybook/addon-docs": "^10.3.1",
+		"@storybook/addon-vitest": "^10.3.1",
+		"@storybook/vue3-vite": "^10.3.1",
+		"storybook": "^10.3.1",
+		"storybook-screen-reader": "github:doubleedesign/storybook-addon-screen-reader#storybook-10-support-with-dist",
+		"vue": "^3.5.30"
+	},
+	"devDependencies": {
+		"@stylistic/eslint-plugin-ts": "^4.4.1",
+		"@testing-library/jest-dom": "^6.9.1",
+		"@testing-library/vue": "^8.1.0",
+		"@types/node": "^25.5.0",
+		"@typescript-eslint/eslint-plugin": "^8.57.1",
+		"@typescript-eslint/parser": "^8.57.1",
+		"@vitejs/plugin-vue": "^6.0.5",
+		"@vitest/browser-playwright": "^4.1.0",
+		"@vitest/coverage-v8": "^4.1.0",
+		"eslint": "^10.1.0",
+		"eslint-plugin-storybook": "^10.3.1",
+		"eslint-plugin-vue": "^10.8.0",
+		"generate-vue-cli": "^0.0.2",
+		"globals": "^17.4.0",
+		"happy-dom": "^20.9.0",
+		"playwright": "^1.58.2",
+		"sass-embedded": "^1.99.0",
+		"typescript": "^5.9.3",
+		"vite": "^8.0.5",
+		"vitest": "^4.1.0",
+		"vue-eslint-parser": "^10.4.0"
+	}
+}
