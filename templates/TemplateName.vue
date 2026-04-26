@@ -10,10 +10,10 @@ const props = defineProps<TemplateNameProps>();
 	<div class="template-name">
 
 	</div>
-</template>;
+</template>
 
 <style scoped lang="scss">
 	.template-name {
 
 	}
-</style>;
+</style>
