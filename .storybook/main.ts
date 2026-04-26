@@ -14,7 +14,7 @@ const config: StorybookConfig = {
 		'storybook-screen-reader'
 	],
 	framework: '@storybook/vue3-vite',
-	staticDirs: ['../sb-assets']
+	staticDirs: ['../sb-assets'],
 	env: (config) => ({
 		...config,
 		STORYBOOK_DEBUG: (process.env.STORYBOOK_DEBUG?.trim() === '1' || process.env.STORYBOOK_DEBUG?.trim()?.toLowerCase() === 'true').toString()

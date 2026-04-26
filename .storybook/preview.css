@@ -8,10 +8,6 @@
 .docs-story + div .prismjs,
 [id*="tabpanel-storybook/html/panel"] .prismjs {
   color: white;
-  /** Based on Catpuccin Mocha - https://prismjs.catppuccin.com/mocha.css */
-  /* https://prismjs.com/tokens.html */
-  /* Diff */
-  /* Other */
 }
 .docblock-source .prismjs *,
 .docs-story + div .prismjs *,
@@ -20,6 +16,11 @@
   font-weight: 300;
   font-size: 0.9rem;
   line-height: 1.4;
+}
+.docblock-source .prismjs,
+.docs-story + div .prismjs,
+[id*="tabpanel-storybook/html/panel"] .prismjs {
+  /** Based on Catpuccin Mocha - https://prismjs.catppuccin.com/mocha.css */
 }
 .docblock-source .prismjs code[class*=language-],
 .docblock-source .prismjs pre[class*=language-],
@@ -36,6 +37,11 @@
 [id*="tabpanel-storybook/html/panel"] .prismjs :not(pre) > code[class*=language-],
 [id*="tabpanel-storybook/html/panel"] .prismjs pre[class*=language-] {
   background: #181825;
+}
+.docblock-source .prismjs,
+.docs-story + div .prismjs,
+[id*="tabpanel-storybook/html/panel"] .prismjs {
+  /* https://prismjs.com/tokens.html */
 }
 .docblock-source .prismjs .token.keyword,
 .docs-story + div .prismjs .token.keyword,
@@ -177,6 +183,11 @@
 [id*="tabpanel-storybook/html/panel"] .prismjs .token.selector {
   color: #89b4fa;
 }
+.docblock-source .prismjs,
+.docs-story + div .prismjs,
+[id*="tabpanel-storybook/html/panel"] .prismjs {
+  /* Diff */
+}
 .docblock-source .prismjs .token.deleted,
 .docs-story + div .prismjs .token.deleted,
 [id*="tabpanel-storybook/html/panel"] .prismjs .token.deleted {
@@ -186,6 +197,11 @@
 .docs-story + div .prismjs .token.inserted,
 [id*="tabpanel-storybook/html/panel"] .prismjs .token.inserted {
   color: #a6e3a1;
+}
+.docblock-source .prismjs,
+.docs-story + div .prismjs,
+[id*="tabpanel-storybook/html/panel"] .prismjs {
+  /* Other */
 }
 .docblock-source .prismjs .token.important,
 .docblock-source .prismjs .token.bold,
