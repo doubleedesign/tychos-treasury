@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, useTemplateRef } from 'vue';
 import type { PropType } from 'vue';
 
 export type ScrollingPhrasesProps = {
@@ -9,6 +9,8 @@ export type ScrollingPhrasesProps = {
 	infinite?: boolean;
 };
 
+// TODO: This should probably be converted to Composition API just for consistency.
+// (or change Composition API components to Options API...if only it worked better with TypeScript...)
 export default defineComponent({
 	props: {
 		phrases: {
@@ -21,7 +23,7 @@ export default defineComponent({
 		},
 		interval: {
 			type: Number,
-			default: 3000,
+			default: 2000,
 		},
 		infinite: {
 			type: Boolean,
@@ -187,14 +189,16 @@ export default defineComponent({
 
 <style scoped lang="scss">
 	.scrolling-phrases {
-		display: block;
+		display: flex;
 		width: fit-content;
+		height: 3lh;
+		overflow: hidden;
 
 		// Extra wrapper is needed to ensure the masking doesn't affect default focus outlines for keyboard users
 		&-mask {
 			display: flex;
 			flex-direction: column;
-			height: 3lh;
+			height: 100%;
 			mask-image: linear-gradient(
 				transparent 0.2lh,
 				rgba(0, 0, 0, 0.25) 0.6lh,
@@ -221,7 +225,7 @@ export default defineComponent({
 
 			&--prev {
 				order: 2;
-				opacity: 0.8;
+				opacity: 0.65;
 			}
 
 			&--active {
@@ -231,7 +235,7 @@ export default defineComponent({
 
 			&--next {
 				order: 4;
-				opacity: 0.8;
+				opacity: 0.65;
 			}
 
 			&--ready-stage-right {

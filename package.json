@@ -12,10 +12,12 @@
 	},
 	"dependencies": {
 		"@doubleedesign/storybook-addon-accessibility-tree": "^1.0.0-alpha7",
+		"@doubleedesign/storybook-assorted-decorators": "^0.0.4",
 		"@storybook/addon-a11y": "^10.3.1",
 		"@storybook/addon-docs": "^10.3.1",
 		"@storybook/addon-vitest": "^10.3.1",
 		"@storybook/vue3-vite": "^10.3.1",
+		"@vueuse/core": "^14.2.1",
 		"storybook": "^10.3.1",
 		"storybook-screen-reader": "github:doubleedesign/storybook-addon-screen-reader#storybook-10-support-with-dist",
 		"vue": "^3.5.30"
