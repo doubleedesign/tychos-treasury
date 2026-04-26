@@ -3,7 +3,7 @@ import ScrollingPhrases, { ScrollingPhrasesProps } from '../../atoms/ScrollingPh
 import { useResizeObserver } from '@vueuse/core';
 import { useTemplateRef } from 'vue';
 
-export type ScrollingHeadingProps = ScrollingPhrasesProps &{
+export type ScrollingHeadingProps = ScrollingPhrasesProps & {
 	headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
 	startText?: string;
 	endText?: string;

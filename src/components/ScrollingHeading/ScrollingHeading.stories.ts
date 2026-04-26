@@ -7,7 +7,7 @@ const meta: Meta<ScrollingHeadingProps> = {
 	component: ScrollingHeading,
 	tags: ['autodocs'],
 	decorators: [
-		withMaxWidth('600px'),
+		withMaxWidth('650px'),
 	],
 	args: {
 		headingLevel: 1,
