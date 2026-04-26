@@ -6,7 +6,7 @@
 			"withStory": true,
 			"customTemplates": {
 				"component": "templates/TemplateName.vue",
-				"story":  "templates/TemplateName.stories.tsx",
+				"story":  "templates/TemplateName.stories.ts",
 				"test":  "templates/TemplateName.test.ts"
 			}
 		},
@@ -16,17 +16,7 @@
 			"withStory": true,
 			"customTemplates": {
 				"component": "templates/TemplateName.vue",
-				"story":  "templates/atom/TemplateName.stories.tsx",
-				"test":  "templates/TemplateName.test.ts"
-			}
-		},
-		"pattern": {
-			"path": "src/patterns",
-			"withTest": true,
-			"withStory": true,
-			"customTemplates": {
-				"component": "templates/TemplateName.vue",
-				"story":  "templates/pattern/TemplateName.stories.tsx",
+				"story":  "templates/atom/TemplateName.stories.ts",
 				"test":  "templates/TemplateName.test.ts"
 			}
 		}

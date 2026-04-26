@@ -29,5 +29,5 @@
 			}
 		]
 	},
-	"include": ["src/**/*", ".storybook", "vite*.ts"]
+	"include": ["src/**/*", ".storybook", "vite*.ts", "templates/**/*"],
 }
