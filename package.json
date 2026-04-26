@@ -18,6 +18,8 @@
 		"@storybook/addon-vitest": "^10.3.1",
 		"@storybook/vue3-vite": "^10.3.1",
 		"@vueuse/core": "^14.2.1",
+		"@whitespace/storybook-addon-html": "^9.0.0",
+		"prettier": "^3.8.3",
 		"storybook": "^10.3.1",
 		"storybook-screen-reader": "github:doubleedesign/storybook-addon-screen-reader#storybook-10-support-with-dist",
 		"vue": "^3.5.30"
