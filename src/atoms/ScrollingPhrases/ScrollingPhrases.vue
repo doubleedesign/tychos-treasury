@@ -166,7 +166,7 @@ export default defineComponent({
 </script>
 
 <template>
-	<span class="scrolling-phrases" data-testId="scrolling-phrases" tabindex="0" :aria-label="phrasesText">
+	<span class="scrolling-phrases" data-testId="scrolling-phrases" tabindex="0" :aria-label="phrasesText" role="img">
 		<span class="scrolling-phrases-mask" role="presentation">
 			<template v-for="(phrase, index) in phrases" :key="index">
 				<span
