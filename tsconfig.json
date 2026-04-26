@@ -13,13 +13,21 @@
 		"isolatedModules": true,
 		"resolveJsonModule": true,
 		"jsx": "react-jsx",
+		"allowImportingTsExtensions": true,
 		"types": [
 			"node",
 			"playwright",
 			"vitest/globals",
 			"@testing-library/jest-dom/vitest",
 			"@testing-library/dom"
+		],
+		"plugins": [
+			{
+				"name": "@vue/typescript-plugin",
+				"location": "node_modules/@vue/language-server",
+				"languages": ["vue"]
+			}
 		]
 	},
-	"include": ["src/**/*", ".storybook"]
+	"include": ["src/**/*", ".storybook", "vite*.ts"]
 }
