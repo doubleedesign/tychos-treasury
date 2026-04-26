@@ -1,11 +1,11 @@
 import type { StorybookConfig } from '@storybook/vue3-vite';
 
 const config: StorybookConfig = {
-	'stories': [
+	stories: [
 		'../src/**/*.mdx',
 		'../src/**/*.stories.@(js|jsx|mjs|ts|tsx)' 
 	],
-	'addons': [
+	addons: [
 		'@storybook/addon-docs',
 		'@storybook/addon-vitest',
 		'@storybook/addon-a11y',
@@ -13,7 +13,11 @@ const config: StorybookConfig = {
 		'@whitespace/storybook-addon-html',
 		'storybook-screen-reader'
 	],
-	'framework': '@storybook/vue3-vite',
+	framework: '@storybook/vue3-vite',
 	staticDirs: ['../sb-assets']
+	env: (config) => ({
+		...config,
+		STORYBOOK_DEBUG: (process.env.STORYBOOK_DEBUG?.trim() === '1' || process.env.STORYBOOK_DEBUG?.trim()?.toLowerCase() === 'true').toString()
+	}),
 };
 export default config;
