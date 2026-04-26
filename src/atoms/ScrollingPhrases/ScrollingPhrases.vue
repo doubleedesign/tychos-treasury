@@ -52,38 +52,18 @@ export default defineComponent({
 				? this.$props.phrases.slice(0, this.$props.phrases.length - 1).join(', ') + (this.$props.phrases.length > 1 ? ', and ' : '') + this.$props.phrases[this.$props.phrases.length - 1]
 				: this.$props.phrases.join(', ');
 		},
-		},
+	},
 	mounted() {
 		this.start();
-
-		// When the component receives keyboard focus, stop the automatic loop
-		this.$el.addEventListener('focusin', () => {
-			this.hasKeyboardFocus = true;
-			this.stop();
-		});
-
-		// Listen for arrow key events and increment or decrement the current index accordingly
-		this.$el.addEventListener('keydown', (event: KeyboardEvent) => {
-			if (!this.hasKeyboardFocus) return;
-
-			if (event.key === 'ArrowUp') {
-				event.preventDefault();
-				this.moveUp();
-			}
-			else if (event.key === 'ArrowDown') {
-				event.preventDefault();
-				this.moveDown();
-			}
-		});
-
-		// When keyboard focus leaves, restart the loop
-		this.$el.addEventListener('focusout', () => {
-			this.hasKeyboardFocus = false;
-			this.start();
-		});
+		this.$el.addEventListener('focusin', this.onFocusIn);
+		this.$el.addEventListener('keydown', this.onKeyDown);
+		this.$el.addEventListener('focusout', this.onFocusOut);
 	},
 	unmounted() {
 		this.stop();
+		this.$el.removeEventListener('focusin',  this.onFocusIn);
+		this.$el.removeEventListener('focusout', this.onFocusOut);
+		this.$el.removeEventListener('keydown',  this.onKeyDown);
 	},
 	methods: {
 		start() {
@@ -124,6 +104,29 @@ export default defineComponent({
 			this.current = this.getPreviousPhrase(oldCurrent);
 			this.previous = this.getPreviousPhrase(oldPrevious);
 			this.readyStageLeft = this.getPreviousPhrase(oldReadyStageLeft);
+		},
+		onFocusIn() {
+			// When the component receives keyboard focus, stop the automatic loop
+			this.hasKeyboardFocus = true;
+			this.stop();
+		},
+		onFocusOut() {
+			// When keyboard focus leaves, restart the loop
+			this.hasKeyboardFocus = false;
+			this.start();
+		},
+		onKeyDown(event: KeyboardEvent) {
+			if (!this.hasKeyboardFocus) return;
+
+			// Listen for arrow key events and increment or decrement the current index accordingly
+			if (event.key === 'ArrowUp') {
+				event.preventDefault();
+				this.moveUp();
+			}
+			else if (event.key === 'ArrowDown') {
+				event.preventDefault();
+				this.moveDown();
+			}
 		},
 		getPreviousPhrase(index: number) {
 			let maybePreviousIndex = index - 1;
