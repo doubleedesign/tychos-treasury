@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/vue3-vite';
 import { Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import '../src/global.css';
+import './preview.css';
 
 const preview: Preview = { 
 	parameters: {
