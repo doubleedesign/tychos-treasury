@@ -12,11 +12,12 @@ describe('ScrollingHeading', () => {
 		expect(screen.getByRole('heading', { name: /E Street Band/ })).toBeVisible();
 	});
 
-	it('has the expected default phrasing for assistive technologies', async () => {
+	it('has the expected phrasing for assistive technologies including "and"', async () => {
 		render(ScrollingHeading, { props: {
 			startText: 'The',
 			phrases: ['heart-stoppin’', 'house rockin’','history makin’', 'legendary'],
-			endText: 'E Street Band'
+			endText: 'E Street Band',
+			a11yAnd: true
 		} });
 
 		expect(screen.getByRole('heading')).toHaveAccessibleName('The heart-stoppin’, house rockin’, history makin’, and legendary E Street Band');
@@ -40,6 +41,6 @@ describe('ScrollingHeading', () => {
 			endText: 'E Street Band'
 		} });
 
-		expect(screen.getByText(/heart-stoppin’/)).toBeVisible();
+		expect(screen.getAllByText(/heart-stoppin’/)[0]).toBeVisible();
 	});
 });

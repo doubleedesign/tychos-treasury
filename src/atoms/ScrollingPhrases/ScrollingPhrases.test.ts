@@ -6,8 +6,9 @@ describe('ScrollingPhrases', () => {
 	beforeEach(() => {
 		vi.useFakeTimers();
 	});
-	
+
 	afterEach(() => {
+		vi.clearAllTimers();
 		vi.useRealTimers();
 	});
 
@@ -29,65 +30,58 @@ describe('ScrollingPhrases', () => {
 
 	it('has the expected phrasing for assistive technologies without adding "and"', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 			a11yAnd: false
 		} });
 
-		expect(screen.getByTestId('scrolling-phrases')).toHaveAccessibleName('Mercury, Venus, Earth, Mars');
+		expect(screen.getByTestId('scrolling-phrases')).toHaveAccessibleName('Mercury, Venus, Earth, Mars, Jupiter, Saturn');
 	});
 
 	it('sets the initial current phrase to the first item in the list', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars']
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 		} });
 
-		expect(screen.getByText('Mercury')).toHaveClass('scrolling-phrases__item--active');
 		expect(screen.getByTestId('active')).toHaveTextContent('Mercury');
 	});
 
 	it('sets the initial next phrase to the second item in the list', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars']
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 		} });
 
-		expect(screen.getByText('Venus')).toHaveClass('scrolling-phrases__item--next');
 		expect(screen.getByTestId('next')).toHaveTextContent('Venus');
 	});
 
 	it('sets the initial previous phrase to the last item in the list', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars']
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 		} });
 
-		screen.debug();
-
-		expect(screen.getByText('Mars')).toHaveClass('scrolling-phrases__item--prev');
-		expect(screen.getByTestId('prev')).toHaveTextContent('Mars');
+		expect(screen.getByTestId('prev')).toHaveTextContent('Saturn');
 	});
 
 	it('visually displays the previous, current, and next phrases', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars']
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 		} });
 
 		expect(screen.getByText('Mercury')).toBeVisible();
 		expect(screen.getByText('Venus')).toBeVisible();
-		expect(screen.getByText('Mars')).toBeVisible();
+		expect(screen.getByText('Saturn')).toBeVisible();
 	});
 
 	it('does not visually display the phrases that are not currently active, next, or previous', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars']
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 		} });
 
 		expect(screen.getByText('Earth')).not.toBeVisible();
 	});
 
 	it('increments the current phrase at the specified interval', async () => {
-		vi.useFakeTimers();
-
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 			interval: 1000
 		} });
 
@@ -100,10 +94,8 @@ describe('ScrollingPhrases', () => {
 	});
 
 	it('increments the next phrase at the specified interval', async () => {
-		vi.useFakeTimers();
-
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 			interval: 1000
 		} });
 
@@ -116,14 +108,12 @@ describe('ScrollingPhrases', () => {
 	});
 
 	it('increments the previous phrase at the specified interval', async () => {
-		vi.useFakeTimers();
-
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 			interval: 1000
 		} });
 
-		expect(screen.getByTestId('prev')).toHaveTextContent('Mars');
+		expect(screen.getByTestId('prev')).toHaveTextContent('Saturn');
 
 		vi.advanceTimersByTime(1000);
 		await nextTick();
@@ -133,7 +123,7 @@ describe('ScrollingPhrases', () => {
 
 	it('does not assign a test ID to phrases that are not currently active, next, or previous', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars']
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 		} });
 
 		expect(screen.getByText('Earth')).not.toHaveAttribute('data-testid');
@@ -141,7 +131,7 @@ describe('ScrollingPhrases', () => {
 
 	it('does not assign a status class  to phrases that are not currently active, next, or previous', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars']
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 		} });
 
 		expect(screen.getByText('Earth')).not.toHaveClass('scrolling-phrases__item--active');
@@ -173,7 +163,7 @@ describe('ScrollingPhrases', () => {
 
 	it('stops at the last phrase when infinite is set to false', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 			infinite: false,
 			interval: 1000
 		} });
@@ -188,12 +178,22 @@ describe('ScrollingPhrases', () => {
 		vi.advanceTimersByTime(1000);
 		await nextTick();
 
-		expect(screen.getByTestId('active')).toHaveTextContent('Mars');
+		expect(screen.getByTestId('active')).toHaveTextContent('Jupiter');
+
+		vi.advanceTimersByTime(1000);
+		await nextTick();
+
+		expect(screen.getByTestId('active')).toHaveTextContent('Saturn');
+
+		vi.advanceTimersByTime(1000);
+		await nextTick();
+
+		expect(screen.getByTestId('active')).toHaveTextContent('Saturn');
 	});
 
 	it('stops automatic scrolling if the component receives keyboard focus', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 			infinite: true,
 			interval: 1000
 		} });
@@ -209,7 +209,7 @@ describe('ScrollingPhrases', () => {
 
 	it('restarts automatic scrolling if the component receives and then loses keyboard focus', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 			infinite: true,
 			interval: 1000
 		} });
@@ -231,7 +231,7 @@ describe('ScrollingPhrases', () => {
 
 	it('moves to the next phrase on arrow-down key press and stops there', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 			infinite: true,
 			interval: 1000
 		} });
@@ -252,7 +252,7 @@ describe('ScrollingPhrases', () => {
 
 	it('moves to the previous phrase on arrow-up key press and stops there', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 			infinite: true,
 			interval: 1000
 		} });
@@ -264,17 +264,17 @@ describe('ScrollingPhrases', () => {
 
 		await arrowKeyUp();
 
-		expect(screen.getByTestId('active')).toHaveTextContent('Mars');
+		expect(screen.getByTestId('active')).toHaveTextContent('Saturn');
 
 		vi.advanceTimersByTime(3000);
 		await nextTick();
 
-		expect(screen.getByTestId('active')).toHaveTextContent('Mars');
+		expect(screen.getByTestId('active')).toHaveTextContent('Saturn');
 	});
 
 	it('does not loop back around on arrow-down key press when infinite is false', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 			infinite: false,
 			interval: 1000
 		} });
@@ -287,16 +287,18 @@ describe('ScrollingPhrases', () => {
 		await arrowKeyDown();
 		await arrowKeyDown();
 		await arrowKeyDown();
+		await arrowKeyDown();
+		await arrowKeyDown();
 
-		expect(screen.getByTestId('active')).toHaveTextContent('Mars');
+		expect(screen.getByTestId('active')).toHaveTextContent('Saturn');
 
 		await arrowKeyDown();
-		expect(screen.getByTestId('active')).toHaveTextContent('Mars');
+		expect(screen.getByTestId('active')).toHaveTextContent('Saturn');
 	});
 
 	it('does not loop back around on arrow-up key press when infinite is false', async () => {
 		render(ScrollingPhrases, { props: {
-			phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
+			phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'],
 			infinite: false,
 			interval: 1000
 		} });

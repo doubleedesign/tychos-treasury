@@ -31,10 +31,14 @@ export default defineComponent({
 		},
 	},
 	data() {
+		// For the animation to work smoothly, there needs to be at least 6 items,
+		// so if there are fewer we duplicate them (and add aria-hidden to them in the template)
+		const padded = this.$props.phrases.length < 6 ? [...this.$props.phrases, ...this.$props.phrases] : this.$props.phrases;
+
 		return {
-			// TODO: Handle fewer than 5 phrases
-			readyStageLeft: this.phrases.length - 2, // the phrase before the previous one - for CSS positioning purposes
-			previous: this.phrases.length - 1,
+			finalPhrases: padded,
+			readyStageLeft: padded.length - 2, // the phrase before the previous one - for CSS positioning purposes
+			previous: padded.length - 1,
 			current: 0,
 			next: 1,
 			readyStageRight: 2, // the phrase after the next one - for CSS positioning purposes
@@ -42,6 +46,13 @@ export default defineComponent({
 			hasKeyboardFocus: false,
 		};
 	},
+	computed: {
+		phrasesText(): string {
+			return this.a11yAnd
+				? this.$props.phrases.slice(0, this.$props.phrases.length - 1).join(', ') + (this.$props.phrases.length > 1 ? ', and ' : '') + this.$props.phrases[this.$props.phrases.length - 1]
+				: this.$props.phrases.join(', ');
+		},
+		},
 	mounted() {
 		this.start();
 
@@ -81,7 +92,7 @@ export default defineComponent({
 			}, this.interval);
 		},
 		moveDown() {
-			if(!this.infinite && this.current === this.phrases.length - 1) {
+			if(!this.infinite && this.current === this.finalPhrases.length - 1) {
 				return;
 			}
 
@@ -119,7 +130,7 @@ export default defineComponent({
 			// If the index is negative, wrap around to the end of the array by adding the length of the array
 			// e.g., if index is -1 and length is 5, maybePreviousIndex will be -1 + 5 = 4, which is the last index of the array
 			if(maybePreviousIndex < 0) {
-				maybePreviousIndex += this.phrases.length;
+				maybePreviousIndex += this.finalPhrases.length;
 			}
 
 			return maybePreviousIndex;
@@ -129,8 +140,8 @@ export default defineComponent({
 			// If the index is greater than or equal to the length of the array,
 			// wrap around to the beginning of the array by subtracting the length of the array
 			// e.g., if index is 5 and length is 5, maybeNextIndex will be 5 - 5 = 0, which is the first index of the array
-			if(maybeNextIndex >= this.phrases.length) {
-				maybeNextIndex -= this.phrases.length;
+			if(maybeNextIndex >= this.finalPhrases.length) {
+				maybeNextIndex -= this.finalPhrases.length;
 			}
 
 			return maybeNextIndex;
@@ -139,7 +150,7 @@ export default defineComponent({
 			if(!this.timer) return; // loop has been stopped
 
 			// Stop the loop if infinite is not true and we have reached the last item
-			const lastIndex = this.phrases.length - 1;
+			const lastIndex = this.finalPhrases.length - 1;
 			if (!this.infinite && this.current === lastIndex) {
 				this.stop();
 
@@ -153,13 +164,6 @@ export default defineComponent({
 				clearInterval(this.timer);
 				this.timer = null;
 			}
-		}
-	},
-	computed: {
-		phrasesText(): string {
-			return this.a11yAnd
-				? this.phrases.slice(0, this.phrases.length - 1).join(', ') + (this.phrases.length > 1 ? ', and ' : '') + this.phrases[this.phrases.length - 1]
-				: this.phrases.join(', ');
 		},
 	},
 });
@@ -168,9 +172,10 @@ export default defineComponent({
 <template>
 	<span class="scrolling-phrases" data-testId="scrolling-phrases" tabindex="0" :aria-label="phrasesText" role="img">
 		<span class="scrolling-phrases-mask" role="presentation">
-			<template v-for="(phrase, index) in phrases" :key="index">
+			<template v-for="(phrase, index) in finalPhrases" :key="index">
 				<span
 					class="scrolling-phrases__item"
+					:aria-hidden="index >= this.$props.phrases.length ? 'true' : null"
 					:class="{
 						'scrolling-phrases__item--ready-stage-left': index === readyStageLeft,
 						'scrolling-phrases__item--prev': index === previous,

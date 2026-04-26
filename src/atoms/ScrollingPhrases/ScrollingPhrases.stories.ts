@@ -6,7 +6,6 @@ const meta: Meta<ScrollingPhrasesProps> = {
 	component: ScrollingPhrases,
 	tags: ['autodocs'],
 	args: {
-		phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'],
 		a11yAnd: false,
 		infinite: true,
 		interval: 2000,
@@ -36,6 +35,38 @@ export default meta;
 type Story = StoryObj<ScrollingPhrasesProps>;
 
 export const Basic: Story = {
+	args: {
+		phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'],
+	},
+	parameters: {
+		controls: { exclude: ['startText', 'phrases', 'endText'] },
+	}
+};
+
+
+export const Basic_5items: Story = {
+	args: {
+		phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter'],
+	},
+	parameters: {
+		controls: { exclude: ['startText', 'phrases', 'endText'] },
+	}
+};
+
+export const Basic_4items: Story = {
+	args: {
+		phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
+	},
+	parameters: {
+		controls: { exclude: ['startText', 'phrases', 'endText'] },
+	}
+};
+
+
+export const Basic_3items: Story = {
+	args: {
+		phrases: ['Mercury', 'Venus', 'Earth'],
+	},
 	parameters: {
 		controls: { exclude: ['startText', 'phrases', 'endText'] },
 	}
