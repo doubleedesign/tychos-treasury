@@ -5,7 +5,6 @@ import { withMaxWidth, maxWidthControls } from '@doubleedesign/storybook-assorte
 const meta: Meta<ScrollingHeadingProps> = {
 	title: 'Components/ScrollingHeading',
 	component: ScrollingHeading,
-	tags: ['autodocs'],
 	decorators: [
 		withMaxWidth('650px'),
 	],
@@ -45,6 +44,7 @@ export default meta;
 type Story = StoryObj<ScrollingHeadingProps>;
 
 export const Basic: Story = {
+	tags: ['autodocs'],
 	args: {
 		startText: 'The',
 		phrases: ['heart-stoppin’', 'earth-shockin’', 'house rockin’', 'history makin’', 'Viagra-takin’', 'legendary'],

@@ -4,7 +4,6 @@ import ProjectCard, { type ProjectCardProps } from './ProjectCard.vue';
 const meta: Meta<ProjectCardProps> = {
 	title: 'Components/ProjectCard',
 	component: ProjectCard,
-	tags: ['autodocs'],
 	args: {
 		title: 'Example Project',
 		description: 'This is a description of the example project. It provides an overview of the project\'s features and functionality.',
@@ -16,4 +15,6 @@ export default meta;
 
 type Story = StoryObj<ProjectCardProps>;
 
-export const Basic: Story = {};
+export const Basic: Story = {
+	tags: ['autodocs'],
+};

@@ -4,7 +4,6 @@ import ScrollingPhrases, { type ScrollingPhrasesProps } from './ScrollingPhrases
 const meta: Meta<ScrollingPhrasesProps> = {
 	title: 'Atoms/ScrollingPhrases',
 	component: ScrollingPhrases,
-	tags: ['autodocs'],
 	args: {
 		a11yAnd: false,
 		infinite: true,
@@ -35,6 +34,7 @@ export default meta;
 type Story = StoryObj<ScrollingPhrasesProps>;
 
 export const Basic: Story = {
+	tags: ['autodocs'],
 	args: {
 		phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'],
 	},
