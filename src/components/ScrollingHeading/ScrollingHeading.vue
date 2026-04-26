@@ -9,7 +9,7 @@ export type ScrollingHeadingProps = ScrollingPhrasesProps & {
 	endText?: string;
 };
 
-const props = defineProps<ScrollingHeadingProps>();
+const { headingLevel = 1, startText, endText, ...props } = defineProps<ScrollingHeadingProps>();
 defineOptions({
 	inheritAttrs: false,
 });
