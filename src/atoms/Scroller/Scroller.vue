@@ -1,9 +1,9 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import type { PropType } from 'vue';
+import { defineComponent, useSlots } from 'vue';
+import type { PropType, VNode } from 'vue';
 
 export type ScrollerProps = {
-	items: (string|HTMLElement)[];
+	items: (string|HTMLElement|VNode)[];
 	showAdjacent?: boolean;
 	infinite?: boolean;
 	orientation: 'vertical' | 'horizontal';
@@ -29,11 +29,14 @@ export default defineComponent({
 		},
 	},
 	data() {
-		let padded = this.$props.items.length < 3 ? [...this.$props.items, ...this.$props.items] : this.$props.items;
-		if(this.showAdjacent) {
-			// For the animation to work smoothly when showing adjacent items, there needs to be at least 6 items,
-			// so if there are fewer we duplicate them (and add aria-hidden to them in the template)
-			padded = this.$props.items.length < 6 ? [...this.$props.items, ...this.$props.items] : this.$props.items;
+		let padded = [];
+		if (this.$props.items.length > 0) {
+			padded = this.$props.items.length < 3 ? [...this.$props.items, ...this.$props.items] : this.$props.items;
+			if (this.showAdjacent) {
+				// For the animation to work smoothly when showing adjacent items, there needs to be at least 6 items,
+				// so if there are fewer we duplicate them (and add aria-hidden to them in the template)
+				padded = this.$props.items.length < 6 ? [...this.$props.items, ...this.$props.items] : this.$props.items;
+			}
 		}
 
 		return {
@@ -48,22 +51,35 @@ export default defineComponent({
 		};
 	},
 	mounted() {
-		this.setSizeAndContentPosition();
+		// If items are not passed in as an array, check for slot content instead
+		if(this.$props.items.length === 0) {
+			const slots = useSlots();
+			this.finalItems = slots.default?.()[0].children;
+		}
+
+		this.$nextTick(() => {
+			this.setSizeAndContentPosition();
+		});
 	},
 	updated() {
 	},
 	methods: {
 		setSizeAndContentPosition() {
-			// The actual items are wrapped in an extra element for styling purposes, so we need to get them from within that
-			const wrapper = this.$el.querySelector('.scroller-mask') as HTMLElement;
-			const children = Array.from(wrapper.children) as HTMLElement[];
+			if(this.finalItems.length === 0) {
+				return;
+			}
 
-			const widths = children.map((child) => (child as HTMLElement).offsetWidth);
+			const itemsToMeasure = document?.querySelectorAll('.scroller__item') ?? [];
+			if(itemsToMeasure.length === 0) {
+				return;
+			}
+
+			const widths = Object.values(itemsToMeasure).map((child) => (child as HTMLElement).offsetWidth);
 			const maxWidth = Math.max(...widths);
 			const itemWidth = maxWidth;
 			const finalWidth = itemWidth * (this.showAdjacent && this.orientation === 'horizontal' ? 3 : 1);
 
-			const heights = children.map((child) => (child as HTMLElement).offsetHeight);
+			const heights = Object.values(itemsToMeasure).map((child) => (child as HTMLElement).offsetHeight);
 			const maxHeight = Math.max(...heights);
 			const itemHeight = maxHeight;
 			this.$el.style.setProperty('--item-height', `${itemHeight}px`);
@@ -186,6 +202,11 @@ export default defineComponent({
 					<template v-if="typeof item === 'object' && 'outerHTML' in item">
 						<div class="scroller__item__node" v-html="item.outerHTML" />
 					</template>
+					<template v-if="typeof item === 'object' && '__v_isVNode' in item">
+						<div class="scroller__item__node">
+							<component :is="item" />
+						</div>
+					</template>
 				</span>
 			</template>
 		</div>
@@ -212,10 +233,13 @@ export default defineComponent({
 			flex-direction: column;
 			height: 100%;
 
+			.scroller[data-orientation='horizontal'] & {
+				flex-direction: row;
+			}
+
 			&[data-showing-adjacent="true"] {
 				.scroller[data-orientation='horizontal'] & {
 					--total-width: calc(var(--item-width) * 3);
-					flex-direction: row;
 					mask-image: linear-gradient(
 						to right,
 						transparent 0,

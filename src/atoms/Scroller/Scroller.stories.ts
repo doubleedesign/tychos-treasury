@@ -11,7 +11,10 @@ const meta: Meta<ScrollerProps> = {
 	},
 	argTypes: {
 		items: {
-			control: { type: 'object', disable: true }
+			control: { type: 'object', disable: true },
+			// eslint-disable-next-line max-len
+			description: 'The items to be scrolled. Can be an array of strings, HTMLElements, or VNodes. Alternatively, more complex content can be passed in as slot content.',
+			table: { type: { summary: 'string[] | HTMLElement[] | VNode[]' } }
 		},
 		orientation: {
 			control: { type: 'select' },

@@ -19,10 +19,17 @@ const preview: Preview = {
 					<Subtitle />
 					<Description />
 					<Primary />
+					<Source />
 					<Controls />
 					<Stories includePrimary={false}/>
 				</div>
 			),
+			canvas: {
+				// Disable the default "show code" panel under the primary story because it doesn't handle slot content
+				// https://storybook.js.org/docs/api/doc-blocks/doc-block-canvas#sourcestate
+				// The <Source /> component rendered manually above will pick up per-story overrides whereas the one this disables doesn't
+				sourceState: 'none'
+			}
 		},
 	},
 };
