@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, useTemplateRef } from 'vue';
 import type { PropType } from 'vue';
+import Scroller from '../Scroller/Scroller.vue';
 
 export type ScrollingPhrasesProps = {
 	phrases: string[];
@@ -9,9 +10,8 @@ export type ScrollingPhrasesProps = {
 	infinite?: boolean;
 };
 
-// TODO: This should probably be converted to Composition API just for consistency.
-// (or change Composition API components to Options API...if only it worked better with TypeScript...)
 export default defineComponent({
+	components: { Scroller },
 	props: {
 		phrases: {
 			type: Array as PropType<string[]>,
@@ -31,19 +31,10 @@ export default defineComponent({
 		},
 	},
 	data() {
-		// For the animation to work smoothly, there needs to be at least 6 items,
-		// so if there are fewer we duplicate them (and add aria-hidden to them in the template)
-		const padded = this.$props.phrases.length < 6 ? [...this.$props.phrases, ...this.$props.phrases] : this.$props.phrases;
-
 		return {
-			finalPhrases: padded,
-			readyStageLeft: padded.length - 2, // the phrase before the previous one - for CSS positioning purposes
-			previous: padded.length - 1,
 			current: 0,
-			next: 1,
-			readyStageRight: 2, // the phrase after the next one - for CSS positioning purposes
-			timer: null as number | null,
 			hasKeyboardFocus: false,
+			infinite: this.$props.infinite,
 		};
 	},
 	computed: {
@@ -71,39 +62,30 @@ export default defineComponent({
 				this.update();
 			}, this.interval);
 		},
-		moveDown() {
-			if(!this.infinite && this.current === this.finalPhrases.length - 1) {
-				return;
+		stop() {
+			if (this.timer) {
+				clearInterval(this.timer);
+				this.timer = null;
 			}
-
-			const oldReadyStageLeft = this.readyStageLeft;
-			const oldPrevious = this.previous;
-			const oldCurrent = this.current;
-			const oldNext = this.next;
-			const oldReadyStageRight = this.readyStageRight;
-
-			this.readyStageLeft = this.getNextPhrase(oldReadyStageLeft);
-			this.previous = this.getNextPhrase(oldPrevious);
-			this.current = this.getNextPhrase(oldCurrent);
-			this.next = this.getNextPhrase(oldNext);
-			this.readyStageRight = this.getNextPhrase(oldReadyStageRight);
 		},
 		moveUp() {
-			if(!this.infinite && this.current === 0) {
+			this.$refs.scrollerRef.movePrev();
+		},
+		moveDown() {
+			this.$refs.scrollerRef.moveNext();
+		},
+		update() {
+			if(!this.timer) return; // loop has been stopped
+
+			// Stop the loop if infinite is not true and we have reached the last item
+			const lastIndex = this.phrases.length - 1;
+			if (!this.infinite && this.current === lastIndex) {
+				this.stop();
+
 				return;
 			}
 
-			const oldReadyStageLeft = this.readyStageLeft;
-			const oldPrevious = this.previous;
-			const oldCurrent = this.current;
-			const oldNext = this.next;
-			const oldReadyStageRight = this.readyStageRight;
-
-			this.readyStageRight = this.getPreviousPhrase(oldReadyStageRight);
-			this.next = this.getPreviousPhrase(oldNext);
-			this.current = this.getPreviousPhrase(oldCurrent);
-			this.previous = this.getPreviousPhrase(oldPrevious);
-			this.readyStageLeft = this.getPreviousPhrase(oldReadyStageLeft);
+			this.moveDown();
 		},
 		onFocusIn() {
 			// When the component receives keyboard focus, stop the automatic loop
@@ -128,127 +110,18 @@ export default defineComponent({
 				this.moveDown();
 			}
 		},
-		getPreviousPhrase(index: number) {
-			let maybePreviousIndex = index - 1;
-			// If the index is negative, wrap around to the end of the array by adding the length of the array
-			// e.g., if index is -1 and length is 5, maybePreviousIndex will be -1 + 5 = 4, which is the last index of the array
-			if(maybePreviousIndex < 0) {
-				maybePreviousIndex += this.finalPhrases.length;
-			}
-
-			return maybePreviousIndex;
-		},
-		getNextPhrase(index: number) {
-			let maybeNextIndex = index + 1;
-			// If the index is greater than or equal to the length of the array,
-			// wrap around to the beginning of the array by subtracting the length of the array
-			// e.g., if index is 5 and length is 5, maybeNextIndex will be 5 - 5 = 0, which is the first index of the array
-			if(maybeNextIndex >= this.finalPhrases.length) {
-				maybeNextIndex -= this.finalPhrases.length;
-			}
-
-			return maybeNextIndex;
-		},
-		update() {
-			if(!this.timer) return; // loop has been stopped
-
-			// Stop the loop if infinite is not true and we have reached the last item
-			const lastIndex = this.finalPhrases.length - 1;
-			if (!this.infinite && this.current === lastIndex) {
-				this.stop();
-
-				return;
-			}
-
-			this.moveDown();
-		},
-		stop() {
-			if (this.timer) {
-				clearInterval(this.timer);
-				this.timer = null;
-			}
-		},
 	},
 });
 </script>
 
 <template>
 	<span class="scrolling-phrases" data-testId="scrolling-phrases" tabindex="0" :aria-label="phrasesText" role="img">
-		<span class="scrolling-phrases-mask" role="presentation">
-			<template v-for="(phrase, index) in finalPhrases" :key="index">
-				<span
-					class="scrolling-phrases__item"
-					:aria-hidden="index >= this.$props.phrases.length ? 'true' : null"
-					:class="{
-						'scrolling-phrases__item--ready-stage-left': index === readyStageLeft,
-						'scrolling-phrases__item--prev': index === previous,
-						'scrolling-phrases__item--active': index === current,
-						'scrolling-phrases__item--next': index === next,
-						'scrolling-phrases__item--ready-stage-right': index === readyStageRight,
-					}"
-					:data-testId="index === current ? 'active' : (index === previous ? 'prev' : (index === next ? 'next' : null))"
-				>
-					{{ phrase }}
-				</span>
-			</template>
-		</span>
+		<Scroller ref="scrollerRef" :items="phrases" :showAdjacent="true" :infinite="infinite"></Scroller>
 	</span>
 </template>
 
 <style scoped lang="scss">
 	.scrolling-phrases {
-		display: flex;
-		width: fit-content;
-		height: 3lh;
-		overflow: hidden;
-
-		// Extra wrapper is needed to ensure the masking doesn't affect default focus outlines for keyboard users
-		&-mask {
-			display: flex;
-			flex-direction: column;
-			height: 100%;
-			mask-image: linear-gradient(
-				transparent 0.2lh,
-				rgba(0, 0, 0, 0.25) 0.6lh,
-				rgba(0, 0, 0, 0.5) 0.8lh,
-				black 1lh,
-				black 2lh,
-				rgba(0, 0, 0, 0.5) 2.2lh,
-				rgba(0, 0, 0, 0.25) 2.6lh,
-				transparent 2.8lh
-			);
-		}
-
-		&__item {
-			display: block;
-			opacity: 0;
-			transition: all 0.4s ease;
-			will-change: transform, opacity, order;
-			order: 100;
-
-			&--ready-stage-left {
-				order: 1;
-				margin-block-start: -1lh;
-			}
-
-			&--prev {
-				order: 2;
-				opacity: 0.65;
-			}
-
-			&--active {
-				order: 3;
-				opacity: 1;
-			}
-
-			&--next {
-				order: 4;
-				opacity: 0.65;
-			}
-
-			&--ready-stage-right {
-				order: 5;
-			}
-		}
+		display: inline-block;
 	}
 </style>;

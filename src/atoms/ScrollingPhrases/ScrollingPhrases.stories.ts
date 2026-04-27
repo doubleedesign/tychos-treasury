@@ -11,7 +11,7 @@ const meta: Meta<ScrollingPhrasesProps> = {
 	},
 	argTypes: {
 		phrases: {
-			control: { type: 'object', disabled: true },
+			control: { type: 'object', disable: true },
 			description: 'The list of phrases to scroll through. Each phrase should be a string.',
 		},
 		a11yAnd: {
@@ -39,7 +39,7 @@ export const Basic: Story = {
 		phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'],
 	},
 	parameters: {
-		controls: { exclude: ['startText', 'phrases', 'endText'] },
+		controls: { exclude: ['startText', 'endText'] },
 	}
 };
 
@@ -49,7 +49,7 @@ export const Basic_5items: Story = {
 		phrases: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter'],
 	},
 	parameters: {
-		controls: { exclude: ['startText', 'phrases', 'endText'] },
+		controls: { exclude: ['startText', 'endText'] },
 	}
 };
 
@@ -58,7 +58,7 @@ export const Basic_4items: Story = {
 		phrases: ['Mercury', 'Venus', 'Earth', 'Mars'],
 	},
 	parameters: {
-		controls: { exclude: ['startText', 'phrases', 'endText'] },
+		controls: { exclude: ['startText', 'endText'] },
 	}
 };
 
@@ -68,6 +68,6 @@ export const Basic_3items: Story = {
 		phrases: ['Mercury', 'Venus', 'Earth'],
 	},
 	parameters: {
-		controls: { exclude: ['startText', 'phrases', 'endText'] },
+		controls: { exclude: ['startText', 'endText'] },
 	}
 };
