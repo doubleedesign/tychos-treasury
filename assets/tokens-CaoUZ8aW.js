@@ -1,0 +1,5 @@
+import{n as e}from"./chunk-zsgVPwQN.js";import{m as t,s as n}from"./blocks-CGqiooI1.js";import{a as r}from"./chunk-RD3KTAHR-ByU77Ns-.js";import{r as i}from"./react-BMD8cE5L.js";import{t as a}from"./mdx-react-shim-BFTz5Cmc.js";function o(e){let t={code:`code`,em:`em`,h1:`h1`,p:`p`,...i(),...e.components};return(0,c.jsxs)(c.Fragment,{children:[(0,c.jsx)(n,{title:`Foundations/Design Tokens`}),`
+`,(0,c.jsx)(t.h1,{id:`design-tokens`,children:`Design Tokens`}),`
+`,(0,c.jsx)(t.p,{children:`A range of CSS variables are provided to easily customise the component design across a Tycho-based application.`}),`
+`,(0,c.jsxs)(t.p,{children:[`The default values of these tokens are set in `,(0,c.jsx)(t.code,{children:`global.css`}),`, and are in a CSS `,(0,c.jsx)(t.code,{children:`@layer`}),` so they can be easily overridden as required.`]}),`
+`,(0,c.jsx)(t.p,{children:(0,c.jsx)(t.em,{children:`List of tokens coming soon.`})})]})}function s(e={}){let{wrapper:t}={...i(),...e.components};return t?(0,c.jsx)(t,{...e,children:(0,c.jsx)(o,{...e})}):o(e)}var c;e((()=>{c=r(),a(),t()}))();export{s as default};

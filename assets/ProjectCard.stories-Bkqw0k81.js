@@ -1,0 +1,3 @@
+import{n as e}from"./chunk-zsgVPwQN.js";import{n as t,t as n}from"./ProjectCard-C5XEYgoU.js";var r,i,a;e((()=>{t(),r={title:`Components/ProjectCard`,component:n,args:{title:`Example Project`,description:`This is a description of the example project. It provides an overview of the project's features and functionality.`,image:`https://via.placeholder.com/300x200.png?text=Project+Image`,url:`#`}},i={tags:[`autodocs`]},i.parameters={...i.parameters,docs:{...i.parameters?.docs,source:{originalSource:`{
+  tags: ['autodocs']
+}`,...i.parameters?.docs?.source}}},a=[`Basic`]}))();export{i as Basic,a as __namedExportsOrder,r as default};
