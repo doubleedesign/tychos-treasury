@@ -1,16 +1,51 @@
-@font-face {
-	font-family: 'Copernicus New Cond';
-	src: url('https://doublee.dev/fonts/CopernicusNewCond-130.woff2') format('woff2');
-	font-weight: 600;
-	font-style: normal;
-}
+// NOTE: This file is domain-restricted due to font licensing restrictions.
+// If you want to use the same fonts as me for your own project, you will need your own licences.
+@import 'https://doublee.dev/fonts/fonts.css';
 
-:root {
-	--font-family-headings: 'Copernicus New Cond', sans-serif;
-	--font-weight-semibold: 600;
-}
+@layer tycho-design-system {
+	:root {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeLegibility;
 
-h1, h2 {
-	font-family: var(--font-family-headings);
-	font-weight: var(--font-weight-semibold);
+		--font-family-body: 'Berkeley Old Style', 'Californian FB', Georgia, serif;
+		--font-family-headings: 'Copernicus New Cond', sans-serif;
+		--font-weight-semibold: 600;
+
+		--color-primary: #845ec2;
+		--color-secondary: #00c9a7;
+		--color-accent: #ba3caf;
+		--color-info: #00d2fc;
+		--color-warning: #f9c971;
+		--color-success: #00c9a7;
+		--color-error: #d23e3e;
+		--color-light: #F0F0F2;
+		--color-dark: #4b4453;
+		--color-white: #ffffff;
+
+		--width-wide: 1440px;
+		--width-contained: 1140px;
+		--width-narrow: 940px;
+		--width-narrower: 768px;
+		--width-small: 600px;
+
+		--spacing-xxs: 0.25rem;
+		/* Augmented fourth scale - 1.414 */
+		--spacing-xs: 0.5rem;
+		--spacing-sm: 0.707rem;
+		--spacing-md: 1rem;
+		--spacing-lg: 1.414rem;
+		--spacing-xl: 2rem;
+		--spacing-xxl: 2.827rem;
+	}
+
+	body {
+		font-family: var(--font-family-body);
+		font-weight: 300;
+	}
+
+	h1, h2 {
+		font-family: var(--font-family-headings);
+		font-weight: var(--font-weight-semibold);
+	}
 }

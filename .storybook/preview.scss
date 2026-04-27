@@ -1,1 +1,5 @@
 @use "../sb-assets/prism-theme";
+
+.sbdocs-preview.sb-unstyled {
+	font-family: var(--font-family-body);
+}

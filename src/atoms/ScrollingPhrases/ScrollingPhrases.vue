@@ -1,6 +1,5 @@
 <script lang="ts">
-import { defineComponent, useTemplateRef } from 'vue';
-import type { PropType } from 'vue';
+import { defineComponent, type PropType } from 'vue';
 import Scroller from '../Scroller/Scroller.vue';
 
 export type ScrollingPhrasesProps = {

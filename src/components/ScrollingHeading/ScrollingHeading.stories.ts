@@ -54,6 +54,20 @@ export const Basic: Story = {
 	parameters: {
 		controls: {
 			exclude: ['startText', 'phrases', 'endText', 'orientation']
+		},
+		docs: {
+			source: {
+				type: 'code',
+				language: 'jsx',
+				code: `
+					<template>
+						<ScrollingHeading
+							startText="The"
+							:phrases="['heart-stoppin’', 'earth-shockin’', 'house rockin’', 'history makin’', 'Viagra-takin’', 'legendary']"
+							endText="E Street Band"
+						/>
+					</template>`
+			},
 		}
 	}
 };

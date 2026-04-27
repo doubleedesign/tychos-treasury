@@ -217,4 +217,8 @@
   font-style: italic;
 }
 
+.sbdocs-preview.sb-unstyled {
+  font-family: var(--font-family-body);
+}
+
 /*# sourceMappingURL=preview.css.map */
